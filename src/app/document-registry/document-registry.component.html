@@ -5,9 +5,10 @@
 
 <!-- Document table -->
 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
   <!-- File column -->
   <ng-container matColumnDef="file">
-    <th mat-header-cell *matHeaderCellDef>Файл</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Файл</th>
     <td mat-cell *matCellDef="let element">
       <button mat-icon-button (click)="viewFile(element)">
         <mat-icon>attach_file</mat-icon>
@@ -17,24 +18,37 @@
 
   <!-- Рег. № column -->
   <ng-container matColumnDef="regNumber">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Рег. №</th> <!-- Added mat-sort-header -->
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Рег. №</th>
     <td mat-cell *matCellDef="let element">{{ element.regNumber }}</td>
   </ng-container>
 
+  <!-- Дата регистрации -->
   <ng-container matColumnDef="regDate">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Дата рег.</th>
     <td mat-cell *matCellDef="let element">{{ formatDate(element.regDate) }}</td>
   </ng-container>
 
+  <!-- Номер исходящего документа -->
+  <ng-container matColumnDef="outDocNumber">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>№ исх. док-та</th>
+    <td mat-cell *matCellDef="let element">{{ element.outDocNumber }}</td>
+  </ng-container>
+
+  <!-- Дата исходящего документа -->
+  <ng-container matColumnDef="outDocDate">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Дата исх. док-та</th>
+    <td mat-cell *matCellDef="let element">{{ formatDate(element.outDocDate) }}</td>
+  </ng-container>
+
   <!-- Корреспондент column -->
   <ng-container matColumnDef="correspondent">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Корреспондент</th> <!-- Added mat-sort-header -->
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Корреспондент</th>
     <td mat-cell *matCellDef="let element">{{ element.correspondent }}</td>
   </ng-container>
 
   <!-- Тема column -->
   <ng-container matColumnDef="subject">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Тема</th> <!-- Added mat-sort-header -->
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Тема</th>
     <td mat-cell *matCellDef="let element">{{ element.subject }}</td>
   </ng-container>
 
@@ -56,5 +70,6 @@
 
   <!-- Table header and row definitions -->
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectRow(row)" (keydown)="onRowKeyDown($event, row)" tabindex="0"></tr>
+
 </table>

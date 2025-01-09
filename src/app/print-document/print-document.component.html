@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Печать документа</h2>
+
+<div mat-dialog-content>
+  <p><strong>Рег. №:</strong> {{ data.regNumber }}</p>
+  <p><strong>Дата рег.:</strong> {{ data.regDate | date: 'dd.MM.yyyy' }}</p>
+  <p><strong>№ исх. док-та:</strong> {{ data.outDocNumber }}</p>
+  <p><strong>Дата исх. док-та:</strong> {{ data.outDocDate | date: 'dd.MM.yyyy' }}</p>
+  <p><strong>Корреспондент:</strong> {{ data.correspondent }}</p>
+  <p><strong>Тема:</strong> {{ data.subject }}</p>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="printDocument()">Печать</button>
+  <button mat-button mat-dialog-close>Закрыть</button>
+</div>

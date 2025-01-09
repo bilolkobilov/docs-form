@@ -8,6 +8,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { DocumentFormComponent } from '../document-form/document-form.component';
+import { PrintDocumentComponent } from '../print-document/print-document.component'; // Add this import for the print modal
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { DatePipe } from '@angular/common'; 
@@ -38,9 +39,9 @@ import { MatNativeDateModule } from '@angular/material/core';
 })
 export class DocumentRegistryComponent implements AfterViewInit {
   @ViewChild(MatSort) sort: MatSort | undefined;
-  displayedColumns: string[] = ['file', 'regNumber', 'regDate', 'correspondent', 'subject', 'actions'];
-  
+  displayedColumns: string[] = ['file', 'regNumber', 'regDate', 'outDocNumber', 'outDocDate', 'correspondent', 'subject', 'actions'];
   dataSource = new MatTableDataSource<any>([]);
+  selectedRowIndex: number | null = null;
 
   constructor(public dialog: MatDialog, private datePipe: DatePipe) {}
 
@@ -50,45 +51,34 @@ export class DocumentRegistryComponent implements AfterViewInit {
     }
   }
 
-  // Updated method to format date using DatePipe
   formatDate(date: string): string {
-    // Using DatePipe to format the date in a consistent manner
-    return this.datePipe.transform(date, 'dd.MM.yyyy') || 'Invalid Date';  // Returns 'Invalid Date' if date is invalid
+    return this.datePipe.transform(date, 'dd.MM.yyyy') || 'Invalid Date';
   }
 
-  openDocumentForm() {
-    const dialogRef = this.dialog.open(DocumentFormComponent, {
-      width: '600px',
-    });
-  
-    // Subscribe to the documentSaved event
-    dialogRef.componentInstance.documentSaved.subscribe((newDocument) => {
-      this.dataSource.data = [...this.dataSource.data, newDocument];  // Add the new document to the data source
-    });
+  // Method to select a row (either by mouse click or keyboard)
+  selectRow(row: any) {
+    this.selectedRowIndex = this.dataSource.data.indexOf(row);
+    console.log('Row selected:', row);
   }
-  
+
+  // Method to handle row navigation with keyboard (up/down arrow keys)
+  onRowKeyDown(event: KeyboardEvent, row: any) {
+    const rowIndex = this.dataSource.data.indexOf(row);
+
+    if (event.key === 'ArrowDown' && rowIndex < this.dataSource.data.length - 1) {
+      this.selectedRowIndex = rowIndex + 1;
+    } else if (event.key === 'ArrowUp' && rowIndex > 0) {
+      this.selectedRowIndex = rowIndex - 1;
+    }
+  }
 
   viewDocument(element: any) {
     console.log('Viewing document:', element);
   }
 
   editDocument(element: any) {
-    const dialogRef = this.dialog.open(DocumentFormComponent, {
-      width: '600px',
-      data: element,  // Pass the selected document data to the form
-    });
-  
-    // Subscribe to the documentSaved event to update the table with the edited document
-    dialogRef.componentInstance.documentSaved.subscribe((updatedDocument) => {
-      const index = this.dataSource.data.findIndex(doc => doc.id === updatedDocument.id);
-      if (index !== -1) {
-        // Update the existing document with the edited values
-        this.dataSource.data[index] = updatedDocument;
-        this.dataSource.data = [...this.dataSource.data];  // Trigger change detection
-      }
-    });
+    console.log('Editing document:', element);
   }
-  
 
   deleteDocument(element: any) {
     console.log('Deleting document:', element);
@@ -100,4 +90,13 @@ export class DocumentRegistryComponent implements AfterViewInit {
     window.open(element.fileUrl, '_blank');
   }
 
+  openDocumentForm() {
+    const dialogRef = this.dialog.open(DocumentFormComponent, {
+      width: '600px',
+    });
+  
+    dialogRef.componentInstance.documentSaved.subscribe((newDocument) => {
+      this.dataSource.data = [...this.dataSource.data, newDocument];
+    });
+  }
 }
