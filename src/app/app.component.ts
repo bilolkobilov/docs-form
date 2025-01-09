@@ -11,5 +11,5 @@ import { routes } from './app.routes';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'document-registry';
+  title = 'document-form';
 }
