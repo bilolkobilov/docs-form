@@ -1,15 +1,38 @@
 <h2 mat-dialog-title>Печать документа</h2>
 
 <div mat-dialog-content>
-  <p><strong>Рег. №:</strong> {{ data.regNumber }}</p>
-  <p><strong>Дата рег.:</strong> {{ data.regDate | date: 'dd.MM.yyyy' }}</p>
-  <p><strong>№ исх. док-та:</strong> {{ data.outDocNumber }}</p>
-  <p><strong>Дата исх. док-та:</strong> {{ data.outDocDate | date: 'dd.MM.yyyy' }}</p>
-  <p><strong>Корреспондент:</strong> {{ data.correspondent }}</p>
-  <p><strong>Тема:</strong> {{ data.subject }}</p>
+  <!-- Таблица с реквизитами документа -->
+  <table class="document-table">
+    <tr>
+      <td><strong>Рег. №:</strong></td>
+      <td>{{ data.regNumber }}</td>
+    </tr>
+    <tr>
+      <td><strong>Дата рег.:</strong></td>
+      <td>{{ data.regDate | date: 'dd.MM.yyyy' }}</td>
+    </tr>
+    <tr>
+      <td><strong>№ исх. док-та:</strong></td>
+      <td>{{ data.outDocNumber }}</td>
+    </tr>
+    <tr>
+      <td><strong>Дата исх. док-та:</strong></td>
+      <td>{{ data.outDocDate | date: 'dd.MM.yyyy' }}</td>
+    </tr>
+    <tr>
+      <td><strong>Корреспондент:</strong></td>
+      <td>{{ data.correspondent }}</td>
+    </tr>
+    <tr>
+      <td><strong>Тема:</strong></td>
+      <td>{{ data.subject }}</td>
+    </tr>
+  </table>
 </div>
 
 <div mat-dialog-actions>
+  <!-- Кнопка для печати документа -->
   <button mat-button (click)="printDocument()">Печать</button>
-  <button mat-button mat-dialog-close>Закрыть</button>
+  <!-- Кнопка для закрытия модального окна -->
+  <button mat-button (click)="close()">Закрыть</button>
 </div>

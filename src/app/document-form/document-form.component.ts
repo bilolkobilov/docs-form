@@ -9,7 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { CommonModule } from '@angular/common'; 
+import { CommonModule } from '@angular/common';
 import { MatOptionModule } from '@angular/material/core';
 import { EventEmitter, Output } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -121,30 +121,27 @@ export class DocumentFormComponent {
   }
 
   // Отправка данных формы
-// Handle form submission
-onSubmit() {
-  this.submitted = true;
+  onSubmit() {
+    this.submitted = true;
 
-  if (this.form.valid) {
-    const formData = { ...this.form.value };
+    if (this.form.valid) {
+      const formData = { ...this.form.value };
 
-    if (this.isEditMode) {
-      formData.id = this.data.id;
+      if (this.isEditMode) {
+        formData.id = this.data.id;
+      }
+
+      if (this.form.get('file')?.value) {
+        const file = this.form.get('file')?.value;
+        formData.fileUrl = URL.createObjectURL(file);
+      }
+
+      this.documentSaved.emit(formData);
+      this.dialogRef.close();
+      this.isSaved = true;
+      console.log('Form submitted:', formData);
     }
-
-    // Emit the form data including the file (as base64 or URL)
-    if (this.form.get('file')?.value) {
-      const file = this.form.get('file')?.value;
-      formData.fileUrl = URL.createObjectURL(file); // Creating an object URL for the file
-    }
-
-    this.documentSaved.emit(formData); // Emit form data including fileUrl
-    this.dialogRef.close();
-    this.isSaved = true;
-    console.log('Form submitted:', formData);
   }
-}
-
 
   // Закрытие диалогового окна
   onClose() {

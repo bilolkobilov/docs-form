@@ -1,79 +1,81 @@
-<h2>Входящие документы</h2>
+<div class="document-registry-container">
 
-<!-- Button to add a new document -->
-<button mat-raised-button (click)="openDocumentForm()">Добавить</button>
+  <div style="display: flex; gap: 30px;">
+    <h2>Входящие документы</h2>
 
-<!-- Document table -->
-<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <!-- Кнопка для добавления нового документа -->
+    <button mat-raised-button (click)="openDocumentForm()">Добавить</button>
+  </div>
 
-  <!-- File column -->
-<!-- File column in document registry table -->
-<ng-container matColumnDef="file">
-  <th mat-header-cell *matHeaderCellDef mat-sort-header>Файл</th>
-  <td mat-cell *matCellDef="let element">
-    <button mat-icon-button (click)="viewFile(element)">
-      <mat-icon>attach_file</mat-icon>
-    </button>
-  </td>
-</ng-container>
+  <!-- Таблица документов -->
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
+    <!-- Столбец Файл -->
+    <ng-container matColumnDef="file">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Файл</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button (click)="viewFile(element)">
+          <mat-icon>attach_file</mat-icon>
+        </button>
+      </td>
+    </ng-container>
 
-  
+    <!-- Столбец Рег. № -->
+    <ng-container matColumnDef="regNumber">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Рег. №</th>
+      <td mat-cell *matCellDef="let element">{{ element.regNumber }}</td>
+    </ng-container>
 
-  <!-- Рег. № column -->
-  <ng-container matColumnDef="regNumber">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Рег. №</th>
-    <td mat-cell *matCellDef="let element">{{ element.regNumber }}</td>
-  </ng-container>
+    <!-- Столбец Дата регистрации -->
+    <ng-container matColumnDef="regDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Дата рег.</th>
+      <td mat-cell *matCellDef="let element">{{ formatDate(element.regDate) }}</td>
+    </ng-container>
 
-  <!-- Дата регистрации -->
-  <ng-container matColumnDef="regDate">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Дата рег.</th>
-    <td mat-cell *matCellDef="let element">{{ formatDate(element.regDate) }}</td>
-  </ng-container>
+    <!-- Столбец Номер исходящего документа -->
+    <ng-container matColumnDef="outDocNumber">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>№ исх. док-та</th>
+      <td mat-cell *matCellDef="let element">{{ element.outDocNumber }}</td>
+    </ng-container>
 
-  <!-- Номер исходящего документа -->
-  <ng-container matColumnDef="outDocNumber">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>№ исх. док-та</th>
-    <td mat-cell *matCellDef="let element">{{ element.outDocNumber }}</td>
-  </ng-container>
+    <!-- Столбец Дата исходящего документа -->
+    <ng-container matColumnDef="outDocDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Дата исх. док-та</th>
+      <td mat-cell *matCellDef="let element">{{ formatDate(element.outDocDate) }}</td>
+    </ng-container>
 
-  <!-- Дата исходящего документа -->
-  <ng-container matColumnDef="outDocDate">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Дата исх. док-та</th>
-    <td mat-cell *matCellDef="let element">{{ formatDate(element.outDocDate) }}</td>
-  </ng-container>
+    <!-- Столбец Корреспондент -->
+    <ng-container matColumnDef="correspondent">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Корреспондент</th>
+      <td mat-cell *matCellDef="let element">{{ element.correspondent }}</td>
+    </ng-container>
 
-  <!-- Корреспондент column -->
-  <ng-container matColumnDef="correspondent">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Корреспондент</th>
-    <td mat-cell *matCellDef="let element">{{ element.correspondent }}</td>
-  </ng-container>
+    <!-- Столбец Тема -->
+    <ng-container matColumnDef="subject">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Тема</th>
+      <td mat-cell *matCellDef="let element">{{ element.subject }}</td>
+    </ng-container>
 
-  <!-- Тема column -->
-  <ng-container matColumnDef="subject">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Тема</th>
-    <td mat-cell *matCellDef="let element">{{ element.subject }}</td>
-  </ng-container>
+    <!-- Столбец Действия (просмотр, редактирование, удаление) -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Действия</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button (click)="openPrintDialog(element)">
+          <mat-icon>print</mat-icon>
+        </button>
+        <button mat-icon-button (click)="deleteDocument(element)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
 
-  <!-- Action buttons (view, edit, delete) -->
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef>Действия</th>
-    <td mat-cell *matCellDef="let element">
-      <button mat-icon-button (click)="viewDocument(element)">
-        <mat-icon>visibility</mat-icon>
-      </button>
-      <button mat-icon-button (click)="editDocument(element)">
-        <mat-icon>edit</mat-icon>
-      </button>
-      <button mat-icon-button (click)="deleteDocument(element)">
-        <mat-icon>delete</mat-icon>
-      </button>
-    </td>
-  </ng-container>
+    <!-- Определения заголовков и строк таблицы -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectRow(row)" (dblclick)="editDocument(row)"
+      (keydown)="onRowKeyDown($event, row)" [class.selected]="isSelectedRow(row)" tabindex="-1"></tr>
 
-  <!-- Table header and row definitions -->
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectRow(row)" (keydown)="onRowKeyDown($event, row)" tabindex="0"></tr>
+  </table>
 
-</table>
+  <!-- Пагинация -->
+  <mat-paginator [length]="dataSource.data.length" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>

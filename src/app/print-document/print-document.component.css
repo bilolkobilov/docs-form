@@ -1,0 +1,23 @@
+.document-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .document-table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+  }
+  
+  .document-table td:first-child {
+    font-weight: bold;
+  }
+  
+  .document-table td {
+    text-align: left;
+  }
+  
+  mat-dialog-actions button {
+    margin-right: 10px;
+  }
+  

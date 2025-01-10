@@ -1,0 +1,15 @@
+.selected {
+    background-color: #e0f7fa;
+  }
+
+  mat-paginator {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%; 
+  }
+  
+  table {
+    margin-bottom: 50px; 
+  }
+  

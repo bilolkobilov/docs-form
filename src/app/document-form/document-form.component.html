@@ -1,128 +1,128 @@
-<h2 class="form-title">Реквизиты входящего документа</h2>
+<div>
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="document-form">
-  <div class="form-row">
-    <!-- Рег. № -->
-    <mat-form-field class="full-width">
-      <mat-label>Рег. № <span class="required">*</span></mat-label>
-      <input matInput formControlName="regNumber" />
-      <mat-error *ngIf="hasError('regNumber', 'required')">Поле обязательно.</mat-error>
-      <mat-error *ngIf="hasError('regNumber', 'regNumberNoDigit')">Должен содержать цифру.</mat-error>
-      <mat-error *ngIf="hasError('regNumber', 'regNumberNoLetter')">Должен содержать букву.</mat-error>
-    </mat-form-field>
+  <h2 class="form-title">Реквизиты входящего документа</h2>
 
-    <!-- Дата рег. -->
-    <mat-form-field class="full-width">
-      <mat-label>Дата рег. <span class="required">*</span></mat-label>
-      <input matInput [matDatepicker]="picker1" formControlName="regDate" [readonly]="true" />
-      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-      <mat-datepicker #picker1></mat-datepicker>
-      <mat-error *ngIf="hasError('regDate', 'required')">Поле обязательно.</mat-error>
-    </mat-form-field>
-  </div>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="document-form">
 
-  <div class="form-row">
-    <!-- Номер исходящего документа -->
-    <mat-form-field class="full-width">
-      <mat-label>№ исх. док-та <span class="required">*</span></mat-label>
-      <input matInput formControlName="outDocNumber" />
-      <mat-error *ngIf="hasError('outDocNumber', 'required')">Поле обязательно.</mat-error>
-      <mat-error *ngIf="hasError('outDocNumber', 'regNumberNoDigit')">Должен содержать цифру.</mat-error>
-      <mat-error *ngIf="hasError('outDocNumber', 'regNumberNoLetter')">Должен содержать букву.</mat-error>
-    </mat-form-field>
+    <div class="form-row">
+      <!-- Рег. № -->
+      <mat-form-field class="full-width">
+        <mat-label>Рег. № <span class="required">*</span></mat-label>
+        <input matInput formControlName="regNumber" />
+        <mat-error *ngIf="hasError('regNumber', 'required')">Поле обязательно.</mat-error>
+        <mat-error *ngIf="hasError('regNumber', 'regNumberNoDigit')">Должен содержать цифру.</mat-error>
+        <mat-error *ngIf="hasError('regNumber', 'regNumberNoLetter')">Должен содержать букву.</mat-error>
+      </mat-form-field>
 
-    <!-- Дата исходящего документа -->
-    <mat-form-field class="full-width">
-      <mat-label>Дата исх. док-та <span class="required">*</span></mat-label>
-      <input matInput [matDatepicker]="picker2" formControlName="outDocDate" />
-      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-      <mat-datepicker #picker2></mat-datepicker>
-      <mat-error *ngIf="hasError('outDocDate', 'required')">Поле обязательно.</mat-error>
-      <mat-error *ngIf="hasError('outDocDate', 'isDateNotInFuture')">Дата не может быть в будущем.</mat-error>
-    </mat-form-field>
-  </div>
+      <!-- Дата рег. -->
+      <mat-form-field class="full-width">
+        <mat-label>Дата рег. <span class="required">*</span></mat-label>
+        <input matInput [matDatepicker]="picker1" formControlName="regDate" [readonly]="true" />
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+        <mat-error *ngIf="hasError('regDate', 'required')">Поле обязательно.</mat-error>
+      </mat-form-field>
+    </div>
 
-  <div class="form-row">
-    <!-- Форма доставки -->
-    <mat-form-field class="full-width">
-      <mat-label>Форма доставки</mat-label>
-      <mat-select formControlName="deliveryMethod">
-        <mat-option value="courier">Курьер</mat-option>
-        <mat-option value="email">Email</mat-option>
-        <mat-option value="phone">Телефонограмма</mat-option>
-      </mat-select>
-      <mat-error *ngIf="hasError('deliveryMethod', 'required')">Поле обязательно.</mat-error>
-    </mat-form-field>
+    <div class="form-row">
+      <!-- Номер исходящего документа -->
+      <mat-form-field class="full-width">
+        <mat-label>№ исх. док-та <span class="required">*</span></mat-label>
+        <input matInput formControlName="outDocNumber" />
+        <mat-error *ngIf="hasError('outDocNumber', 'required')">Поле обязательно.</mat-error>
+        <mat-error *ngIf="hasError('outDocNumber', 'regNumberNoDigit')">Должен содержать цифру.</mat-error>
+        <mat-error *ngIf="hasError('outDocNumber', 'regNumberNoLetter')">Должен содержать букву.</mat-error>
+      </mat-form-field>
 
-    <!-- Корреспондент -->
-    <mat-form-field class="full-width">
-      <mat-label>Корреспондент <span class="required">*</span></mat-label>
-      <mat-select formControlName="correspondent" required>
-        <mat-option value="cb">ЦБ</mat-option>
-        <mat-option value="gni">ГНИ</mat-option>
-        <mat-option value="tszh">ТСЖ</mat-option>
-      </mat-select>
-      <mat-error *ngIf="hasError('correspondent', 'required')">Поле обязательно.</mat-error>
-    </mat-form-field>
-  </div>
+      <!-- Дата исходящего документа -->
+      <mat-form-field class="full-width">
+        <mat-label>Дата исх. док-та <span class="required">*</span></mat-label>
+        <input matInput [matDatepicker]="picker2" formControlName="outDocDate" />
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+        <mat-error *ngIf="hasError('outDocDate', 'required')">Поле обязательно.</mat-error>
+        <mat-error *ngIf="hasError('outDocDate', 'isDateNotInFuture')">Дата не может быть в будущем.</mat-error>
+      </mat-form-field>
+    </div>
 
-  <div class="form-row">
-    <!-- Тема -->
-    <mat-form-field class="full-width">
-      <mat-label>Тема <span class="required">*</span></mat-label>
-      <input matInput formControlName="subject" maxlength="100" required />
-      <mat-error *ngIf="hasError('subject', 'required')">Поле обязательно.</mat-error>
-    </mat-form-field>
+    <div class="form-row">
+      <!-- Форма доставки -->
+      <mat-form-field class="full-width">
+        <mat-label>Форма доставки</mat-label>
+        <mat-select formControlName="deliveryMethod">
+          <mat-option value="courier">Курьер</mat-option>
+          <mat-option value="email">Email</mat-option>
+          <mat-option value="phone">Телефонограмма</mat-option>
+        </mat-select>
+        <mat-error *ngIf="hasError('deliveryMethod', 'required')">Поле обязательно.</mat-error>
+      </mat-form-field>
 
-    <!-- Описание -->
-    <mat-form-field class="full-width">
-      <mat-label>Описание</mat-label>
-      <textarea matInput formControlName="description" maxlength="1000"></textarea>
-    </mat-form-field>
-  </div>
+      <!-- Корреспондент -->
+      <mat-form-field class="full-width">
+        <mat-label>Корреспондент <span class="required">*</span></mat-label>
+        <mat-select formControlName="correspondent" required>
+          <mat-option value="cb">ЦБ</mat-option>
+          <mat-option value="gni">ГНИ</mat-option>
+          <mat-option value="tszh">ТСЖ</mat-option>
+        </mat-select>
+        <mat-error *ngIf="hasError('correspondent', 'required')">Поле обязательно.</mat-error>
+      </mat-form-field>
+    </div>
 
-  <div class="form-row">
-    <!-- Срок исполнения -->
-    <mat-form-field class="full-width">
-      <mat-label>Срок исполнения <span class="required">*</span></mat-label>
-      <input matInput [matDatepicker]="picker3" formControlName="executionDate" required />
-      <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
-      <mat-datepicker #picker3></mat-datepicker>
-      <mat-error *ngIf="hasError('executionDate', 'executionDateInvalid')">Не может быть раньше даты
-        регистрации.</mat-error>
-      <mat-error *ngIf="hasError('executionDate', 'required')">Поле обязательно.</mat-error>
-    </mat-form-field>
-  </div>
+    <div class="form-row">
+      <!-- Тема -->
+      <mat-form-field class="full-width">
+        <mat-label>Тема <span class="required">*</span></mat-label>
+        <input matInput formControlName="subject" maxlength="100" required />
+        <mat-error *ngIf="hasError('subject', 'required')">Поле обязательно.</mat-error>
+      </mat-form-field>
 
-  <div class="form-row">
-    <!-- Доступ -->
-    <mat-checkbox formControlName="access">Доступ</mat-checkbox>
+      <!-- Описание -->
+      <mat-form-field class="full-width">
+        <mat-label>Описание</mat-label>
+        <textarea matInput formControlName="description" maxlength="1000"></textarea>
+      </mat-form-field>
+    </div>
 
-    <!-- Контроль -->
-    <mat-checkbox formControlName="control">Контроль</mat-checkbox>
-  </div>
+    <div class="form-row">
+      <!-- Срок исполнения -->
+      <mat-form-field class="full-width">
+        <mat-label>Срок исполнения <span class="required">*</span></mat-label>
+        <input matInput [matDatepicker]="picker3" formControlName="executionDate" required />
+        <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+        <mat-datepicker #picker3></mat-datepicker>
+        <mat-error *ngIf="hasError('executionDate', 'executionDateInvalid')">Не может быть раньше даты
+          регистрации.</mat-error>
+        <mat-error *ngIf="hasError('executionDate', 'required')">Поле обязательно.</mat-error>
+      </mat-form-field>
+    </div>
 
-  <!-- File Input -->
-  <div class="form-row">
-    <mat-label>Прикрепить файл</mat-label>
-    <input type="file" (change)="onFileChange($event)" />
-    <mat-error *ngIf="fileError">{{ fileError }}</mat-error>
-  </div>
+    <div class="form-row">
+      <!-- Доступ -->
+      <mat-checkbox formControlName="access">Доступ</mat-checkbox>
 
-  <!-- Кнопки -->
-  <div class="form-row">
-    <button mat-raised-button type="submit" class="submit-button">Сохранить</button>
-    <button mat-raised-button type="button" (click)="onClose()" class="cancel-button">Закрыть</button>
-  </div>
+      <!-- Контроль -->
+      <mat-checkbox formControlName="control">Контроль</mat-checkbox>
+    </div>
 
-  <!-- Отобразить общее сообщение о валидации только после отправки формы или когда поля были изменены -->
-  <div *ngIf="form.invalid && submitted" class="error-message">
-    Заполните выделенные поля!
-  </div>
+    <!-- Ввод файла -->
+    <div class="form-row">
+      <mat-label>Прикрепить файл</mat-label>
+      <input type="file" (change)="onFileChange($event)" />
+      <mat-error *ngIf="fileError">{{ fileError }}</mat-error>
+    </div>
 
-</form>
+    <!-- Кнопки -->
+    <div class="form-row">
+      <button mat-raised-button type="submit" class="submit-button">Сохранить</button>
+      <button mat-raised-button type="button" (click)="onClose()" class="cancel-button">Закрыть</button>
+    </div>
 
-<!-- Кнопка Печать появится только после успешного сохранения -->
-<div *ngIf="isSaved">
-  <button mat-raised-button type="button" class="print-button">Печать</button>
+    <!-- Отобразить общее сообщение о валидации только после отправки формы или когда поля были изменены -->
+    <div *ngIf="form.invalid && submitted" class="error-message">
+      Заполните выделенные поля!
+    </div>
+
+  </form>
+
 </div>
