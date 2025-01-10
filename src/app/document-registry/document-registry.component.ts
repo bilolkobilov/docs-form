@@ -8,7 +8,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { DocumentFormComponent } from '../document-form/document-form.component';
-import { PrintDocumentComponent } from '../print-document/print-document.component'; // Add this import for the print modal
+import { PrintDocumentComponent } from '../print-document/print-document.component'; 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { DatePipe } from '@angular/common'; 
@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker'; 
 import { MatNativeDateModule } from '@angular/material/core'; 
+
 
 @Component({
   selector: 'app-document-registry',
@@ -85,11 +86,6 @@ export class DocumentRegistryComponent implements AfterViewInit {
     this.dataSource.data = this.dataSource.data.filter(doc => doc !== element);
   }
 
-  viewFile(element: any) {
-    console.log('Viewing file for document:', element);
-    window.open(element.fileUrl, '_blank');
-  }
-
   openDocumentForm() {
     const dialogRef = this.dialog.open(DocumentFormComponent, {
       width: '600px',
@@ -99,4 +95,21 @@ export class DocumentRegistryComponent implements AfterViewInit {
       this.dataSource.data = [...this.dataSource.data, newDocument];
     });
   }
+
+  viewFile(element: any) {
+    if (element.fileUrl) {
+      // Check if the file is a PDF
+      const fileExtension = element.fileUrl.split('.').pop()?.toLowerCase();
+      if (fileExtension === 'pdf') {
+        // Open the PDF file in a new tab
+        window.open(element.fileUrl, '_blank');
+      } else if (fileExtension === 'doc' || fileExtension === 'docx') {
+        // Handle Word documents (open in a viewer or link to file download)
+        window.open(element.fileUrl, '_blank');
+      }
+    } else {
+      console.error('No file URL found');
+    }
+  }
+  
 }

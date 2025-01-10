@@ -7,14 +7,18 @@
 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
   <!-- File column -->
-  <ng-container matColumnDef="file">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Файл</th>
-    <td mat-cell *matCellDef="let element">
-      <button mat-icon-button (click)="viewFile(element)">
-        <mat-icon>attach_file</mat-icon>
-      </button>
-    </td>
-  </ng-container>
+<!-- File column in document registry table -->
+<ng-container matColumnDef="file">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header>Файл</th>
+  <td mat-cell *matCellDef="let element">
+    <button mat-icon-button (click)="viewFile(element)">
+      <mat-icon>attach_file</mat-icon>
+    </button>
+  </td>
+</ng-container>
+
+
+  
 
   <!-- Рег. № column -->
   <ng-container matColumnDef="regNumber">

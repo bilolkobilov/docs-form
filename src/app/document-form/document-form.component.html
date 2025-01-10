@@ -38,7 +38,7 @@
       <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
       <mat-datepicker #picker2></mat-datepicker>
       <mat-error *ngIf="hasError('outDocDate', 'required')">Поле обязательно.</mat-error>
-      <mat-error *ngIf="hasError('outDocDate', 'dateInFuture')">Дата не может быть в будущем.</mat-error>
+      <mat-error *ngIf="hasError('outDocDate', 'isDateNotInFuture')">Дата не может быть в будущем.</mat-error>
     </mat-form-field>
   </div>
 
@@ -51,6 +51,7 @@
         <mat-option value="email">Email</mat-option>
         <mat-option value="phone">Телефонограмма</mat-option>
       </mat-select>
+      <mat-error *ngIf="hasError('deliveryMethod', 'required')">Поле обязательно.</mat-error>
     </mat-form-field>
 
     <!-- Корреспондент -->
@@ -87,16 +88,17 @@
       <input matInput [matDatepicker]="picker3" formControlName="executionDate" required />
       <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
       <mat-datepicker #picker3></mat-datepicker>
-      <mat-error *ngIf="hasError('executionDate', 'executionDateInvalid')">Не может быть раньше даты регистрации.</mat-error>
+      <mat-error *ngIf="hasError('executionDate', 'executionDateInvalid')">Не может быть раньше даты
+        регистрации.</mat-error>
       <mat-error *ngIf="hasError('executionDate', 'required')">Поле обязательно.</mat-error>
     </mat-form-field>
   </div>
 
   <div class="form-row">
-    <!-- Доступ (Yes/No) -->
+    <!-- Доступ -->
     <mat-checkbox formControlName="access">Доступ</mat-checkbox>
 
-    <!-- Контроль (Yes/No) -->
+    <!-- Контроль -->
     <mat-checkbox formControlName="control">Контроль</mat-checkbox>
   </div>
 
@@ -109,18 +111,18 @@
 
   <!-- Кнопки -->
   <div class="form-row">
-    <button mat-raised-button type="submit" [disabled]="form.invalid" class="submit-button">Сохранить</button>
+    <button mat-raised-button type="submit" class="submit-button">Сохранить</button>
     <button mat-raised-button type="button" (click)="onClose()" class="cancel-button">Закрыть</button>
   </div>
 
-<!-- Отобразить общее сообщение о валидации, если форма недействительна -->
-  <div *ngIf="form.invalid && form.touched" class="error-message">
+  <!-- Отобразить общее сообщение о валидации только после отправки формы или когда поля были изменены -->
+  <div *ngIf="form.invalid && submitted" class="error-message">
     Заполните выделенные поля!
   </div>
+
 </form>
 
 <!-- Кнопка Печать появится только после успешного сохранения -->
 <div *ngIf="isSaved">
   <button mat-raised-button type="button" class="print-button">Печать</button>
 </div>
-

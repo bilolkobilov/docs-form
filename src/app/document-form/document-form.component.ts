@@ -15,28 +15,6 @@ import { EventEmitter, Output } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-export function regNumberValidator(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const value = control.value;
-    return /[0-9]/.test(value) && /[A-Za-z]/.test(value) ? null : { regNumberInvalid: true };
-  };
-}
-
-export function dateNotInFutureValidator(control: AbstractControl): ValidationErrors | null {
-  const enteredDate = new Date(control.value);
-  const currentDate = new Date();
-  currentDate.setHours(0, 0, 0, 0);
-  return enteredDate > currentDate ? { dateInFuture: true } : null;
-}
-
-export function executionDateValidator(regDateControl: AbstractControl): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const regDate = new Date(regDateControl.value);
-    const executionDate = new Date(control.value);
-    return executionDate < regDate ? { executionDateInvalid: true } : null;
-  };
-}
-
 @Component({
   selector: 'app-document-form',
   standalone: true,
@@ -57,11 +35,14 @@ export function executionDateValidator(regDateControl: AbstractControl): Validat
     MatOptionModule
   ],
 })
+
 export class DocumentFormComponent {
   form: FormGroup;
   isEditMode = false;
   fileError: string | null = null;
   isSaved = false;
+  submitted = false;
+  selectedFile: File | null = null;
 
   @Output() documentSaved = new EventEmitter<any>();
 
@@ -71,11 +52,11 @@ export class DocumentFormComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.form = this.fb.group({
-      regNumber: ['', [Validators.required, regNumberValidator()]],
+      regNumber: ['', [Validators.required, this.regNumberValidator]],
       regDate: ['', Validators.required],
-      outDocNumber: ['', [Validators.required, regNumberValidator()]],
-      outDocDate: ['', [Validators.required, dateNotInFutureValidator]],
-      deliveryMethod: [''],
+      outDocNumber: ['', [Validators.required, this.regNumberValidator]],
+      outDocDate: ['', [Validators.required, this.dateNotInFutureValidator]],
+      deliveryMethod: ['', Validators.required],
       correspondent: ['', Validators.required],
       subject: ['', [Validators.required, Validators.maxLength(100)]],
       description: ['', Validators.maxLength(1000)],
@@ -86,6 +67,7 @@ export class DocumentFormComponent {
     });
   }
 
+  // Инициализация значений формы
   ngOnInit(): void {
     const today = new Date().toISOString().split('T')[0];
     this.form.patchValue({
@@ -93,11 +75,9 @@ export class DocumentFormComponent {
       outDocDate: today
     });
 
-    this.form.get('executionDate')?.setValidators([
-      Validators.required,
-      executionDateValidator(this.form.get('regDate')!)
-    ]);
-    this.form.get('executionDate')?.updateValueAndValidity();
+    if (!this.isEditMode) {
+      this.setExecutionDateValidators();
+    }
 
     if (this.data) {
       this.isEditMode = true;
@@ -105,6 +85,17 @@ export class DocumentFormComponent {
     }
   }
 
+  // Установка валидаторов для поля executionDate
+  private setExecutionDateValidators(): void {
+    const executionDateControl = this.form.get('executionDate');
+    executionDateControl?.setValidators([
+      Validators.required,
+      this.executionDateNotBeforeRegistrationValidator('regDate')
+    ]);
+    executionDateControl?.updateValueAndValidity();
+  }
+
+  // Обработчик изменения файла
   onFileChange(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files?.length) {
@@ -129,28 +120,70 @@ export class DocumentFormComponent {
     }
   }
 
-  onSubmit() {
-    if (this.form.valid) {
-      const formData = this.form.value;
-      if (this.isEditMode) {
-        formData.id = this.data.id;
-      }
-      this.documentSaved.emit(formData);
-      this.dialogRef.close();
-      this.isSaved = true; 
-      console.log('Form submitted:', formData);
-    }
-  }
+  // Отправка данных формы
+// Handle form submission
+onSubmit() {
+  this.submitted = true;
 
+  if (this.form.valid) {
+    const formData = { ...this.form.value };
+
+    if (this.isEditMode) {
+      formData.id = this.data.id;
+    }
+
+    // Emit the form data including the file (as base64 or URL)
+    if (this.form.get('file')?.value) {
+      const file = this.form.get('file')?.value;
+      formData.fileUrl = URL.createObjectURL(file); // Creating an object URL for the file
+    }
+
+    this.documentSaved.emit(formData); // Emit form data including fileUrl
+    this.dialogRef.close();
+    this.isSaved = true;
+    console.log('Form submitted:', formData);
+  }
+}
+
+
+  // Закрытие диалогового окна
   onClose() {
     this.dialogRef.close();
   }
 
+  // Валидатор для даты (не может быть в будущем)
+  dateNotInFutureValidator(control: AbstractControl): ValidationErrors | null {
+    const enteredDate = new Date(control.value).toDateString();
+    const today = new Date().toDateString();
+    return enteredDate > today ? { isDateNotInFuture: true } : null;
+  }
+
+  // Валидатор для регистрационного номера
+  regNumberValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    return /[0-9]/.test(value) && /[A-Za-z]/.test(value)
+      ? null
+      : { regNumberInvalid: true };
+  }
+
+  // Проверка наличия ошибки в поле
   hasError(controlName: string, errorName: string): boolean {
     const control = this.form.get(controlName);
-    if (!control) {
-      return false;
-    }
-    return control.hasError(errorName) && control.touched;
+    return control ? control.hasError(errorName) && control.touched : false;
+  }
+
+  // Валидатор для поля executionDate (не может быть раньше regDate)
+  executionDateNotBeforeRegistrationValidator(regDateControlName: string): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const regDate = control.root.get(regDateControlName)?.value;
+      const executionDate = control.value;
+
+      if (!regDate || !executionDate) return null;
+
+      const regDateObj = new Date(regDate);
+      const executionDateObj = new Date(executionDate);
+
+      return executionDateObj < regDateObj ? { executionDateInvalid: true } : null;
+    };
   }
 }
