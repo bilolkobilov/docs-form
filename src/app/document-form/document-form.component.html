@@ -1,4 +1,4 @@
-<div>
+<div class="main">
 
   <h2 class="form-title">Реквизиты входящего документа</h2>
 
@@ -7,7 +7,7 @@
     <div class="form-row">
       <!-- Рег. № -->
       <mat-form-field class="full-width">
-        <mat-label>Рег. № <span class="required">*</span></mat-label>
+        <mat-label>Рег. №</mat-label>
         <input matInput formControlName="regNumber" />
         <mat-error *ngIf="hasError('regNumber', 'required')">Поле обязательно.</mat-error>
         <mat-error *ngIf="hasError('regNumber', 'regNumberNoDigit')">Должен содержать цифру.</mat-error>
@@ -16,18 +16,16 @@
 
       <!-- Дата рег. -->
       <mat-form-field class="full-width">
-        <mat-label>Дата рег. <span class="required">*</span></mat-label>
+        <mat-label>Дата рег.</mat-label>
         <input matInput [matDatepicker]="picker1" formControlName="regDate" [readonly]="true" />
         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>
         <mat-error *ngIf="hasError('regDate', 'required')">Поле обязательно.</mat-error>
       </mat-form-field>
-    </div>
 
-    <div class="form-row">
       <!-- Номер исходящего документа -->
       <mat-form-field class="full-width">
-        <mat-label>№ исх. док-та <span class="required">*</span></mat-label>
+        <mat-label>№ исх. док-та</mat-label>
         <input matInput formControlName="outDocNumber" />
         <mat-error *ngIf="hasError('outDocNumber', 'required')">Поле обязательно.</mat-error>
         <mat-error *ngIf="hasError('outDocNumber', 'regNumberNoDigit')">Должен содержать цифру.</mat-error>
@@ -36,7 +34,7 @@
 
       <!-- Дата исходящего документа -->
       <mat-form-field class="full-width">
-        <mat-label>Дата исх. док-та <span class="required">*</span></mat-label>
+        <mat-label>Дата исх. док-та</mat-label>
         <input matInput [matDatepicker]="picker2" formControlName="outDocDate" />
         <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
         <mat-datepicker #picker2></mat-datepicker>
@@ -59,7 +57,7 @@
 
       <!-- Корреспондент -->
       <mat-form-field class="full-width">
-        <mat-label>Корреспондент <span class="required">*</span></mat-label>
+        <mat-label>Корреспондент</mat-label>
         <mat-select formControlName="correspondent" required>
           <mat-option value="cb">ЦБ</mat-option>
           <mat-option value="gni">ГНИ</mat-option>
@@ -67,27 +65,17 @@
         </mat-select>
         <mat-error *ngIf="hasError('correspondent', 'required')">Поле обязательно.</mat-error>
       </mat-form-field>
-    </div>
 
-    <div class="form-row">
       <!-- Тема -->
       <mat-form-field class="full-width">
-        <mat-label>Тема <span class="required">*</span></mat-label>
+        <mat-label>Тема</mat-label>
         <input matInput formControlName="subject" maxlength="100" required />
         <mat-error *ngIf="hasError('subject', 'required')">Поле обязательно.</mat-error>
       </mat-form-field>
 
-      <!-- Описание -->
-      <mat-form-field class="full-width">
-        <mat-label>Описание</mat-label>
-        <textarea matInput formControlName="description" maxlength="1000"></textarea>
-      </mat-form-field>
-    </div>
-
-    <div class="form-row">
       <!-- Срок исполнения -->
       <mat-form-field class="full-width">
-        <mat-label>Срок исполнения <span class="required">*</span></mat-label>
+        <mat-label>Срок исполнения</mat-label>
         <input matInput [matDatepicker]="picker3" formControlName="executionDate" required />
         <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
         <mat-datepicker #picker3></mat-datepicker>
@@ -95,25 +83,40 @@
           регистрации.</mat-error>
         <mat-error *ngIf="hasError('executionDate', 'required')">Поле обязательно.</mat-error>
       </mat-form-field>
+
     </div>
 
-    <div class="form-row">
-      <!-- Доступ -->
-      <mat-checkbox formControlName="access">Доступ</mat-checkbox>
+    <div class="form-row-m">
+      <!-- Описание -->
+      <mat-form-field class="full-width">
+        <mat-label>Описание</mat-label>
+        <textarea matInput formControlName="description" maxlength="1000" style="  max-height: 150px;"></textarea>
+      </mat-form-field>
 
-      <!-- Контроль -->
-      <mat-checkbox formControlName="control">Контроль</mat-checkbox>
-    </div>
+      <!-- Ввод файла -->
+      <div class="file">
+        <div class="file-input">
+          <label for="fileInput" class="file-label">Выбрать файл</label>
+          <input id="fileInput" type="file" (change)="onFileChange($event)" hidden />
+          <div class="file-info">
+            <span class="file-chosen">{{ selectedFileName }}</span>
+          </div>
+        </div>
+        <mat-error *ngIf="fileError">{{ fileError }}</mat-error>
+      </div>
 
-    <!-- Ввод файла -->
-    <div class="form-row">
-      <mat-label>Прикрепить файл</mat-label>
-      <input type="file" (change)="onFileChange($event)" />
-      <mat-error *ngIf="fileError">{{ fileError }}</mat-error>
+      <div class="form-row">
+        <!-- Доступ -->
+        <mat-checkbox formControlName="access">Доступ</mat-checkbox>
+
+        <!-- Контроль -->
+        <mat-checkbox formControlName="control">Контроль</mat-checkbox>
+      </div>
+
     </div>
 
     <!-- Кнопки -->
-    <div class="form-row">
+    <div class="form-row-b">
       <button mat-raised-button type="submit" class="submit-button">Сохранить</button>
       <button mat-raised-button type="button" (click)="onClose()" class="cancel-button">Закрыть</button>
     </div>

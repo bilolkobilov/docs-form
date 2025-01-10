@@ -1,23 +1,65 @@
+.main {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+}
+
+.main h2 {
+  text-align: center;
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.table-design {
+  margin-bottom: 20px;
+}
+
 .document-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-  }
-  
-  .document-table td {
-    padding: 8px;
-    border: 1px solid #ddd;
-  }
-  
-  .document-table td:first-child {
-    font-weight: bold;
-  }
-  
-  .document-table td {
-    text-align: left;
-  }
-  
-  mat-dialog-actions button {
-    margin-right: 10px;
-  }
-  
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.document-table td {
+  padding: 8px;
+  border: 1px solid #ccc;
+}
+
+.document-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.document-table tr td:first-child {
+  font-weight: bold;
+  width: 30%;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttons button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+}
+
+.buttons button:first-child {
+  background-color: #42a5f5;
+}
+
+.buttons button:last-child {
+  background-color: #e0e0e0;
+}
+
+.buttons button:hover {
+  opacity: 0.8;
+}

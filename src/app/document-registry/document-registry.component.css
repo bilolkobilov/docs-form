@@ -1,15 +1,104 @@
-.selected {
-    background-color: #e0f7fa;
-  }
+.document-registry-container {
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+}
 
-  mat-paginator {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%; 
-  }
-  
-  table {
-    margin-bottom: 50px; 
-  }
-  
+.document-registry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.document-registry-header h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #3f51b5;
+  margin: 0;
+}
+
+.add-button {
+  background-color: #3f51b5;
+  color: white;
+  font-size: 14px;
+  padding: 8px 20px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+  background-color: #303f9f;
+}
+
+table {
+  height: 100%;
+}
+
+table.mat-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+table.mat-table th, table.mat-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+table.mat-table th {
+  background-color: #f5f5f5;
+  color: #3f51b5;
+  font-weight: bold;
+}
+
+table.mat-table td {
+  background-color: #fff;
+}
+
+table.mat-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+button.mat-icon-button {
+  background-color: #f0f0f0;
+  border-radius: 50%;
+  padding: 10px;
+  margin: 5px;
+  transition: background-color 0.3s ease;
+}
+
+button.mat-icon-button:hover {
+  background-color: #3f51b5;
+  color: white;
+}
+
+.selected {
+  background-color: #e0f7fa;
+}
+
+mat-paginator {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+mat-sort-header.mat-sort-header-sorted {
+  color: #3f51b5;
+}
+
+mat-sort-header.mat-sort-header-unsorted {
+  color: #888;
+}
+
+.mat-icon {
+  font-size: 20px;
+  transition: transform 0.3s ease;
+}
+
+button.mat-icon-button:hover .mat-icon {
+  transform: scale(1.1);
+}

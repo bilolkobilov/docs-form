@@ -1,38 +1,41 @@
-<h2 mat-dialog-title>Печать документа</h2>
+<div class="main">
 
-<div mat-dialog-content>
-  <!-- Таблица с реквизитами документа -->
-  <table class="document-table">
-    <tr>
-      <td><strong>Рег. №:</strong></td>
-      <td>{{ data.regNumber }}</td>
-    </tr>
-    <tr>
-      <td><strong>Дата рег.:</strong></td>
-      <td>{{ data.regDate | date: 'dd.MM.yyyy' }}</td>
-    </tr>
-    <tr>
-      <td><strong>№ исх. док-та:</strong></td>
-      <td>{{ data.outDocNumber }}</td>
-    </tr>
-    <tr>
-      <td><strong>Дата исх. док-та:</strong></td>
-      <td>{{ data.outDocDate | date: 'dd.MM.yyyy' }}</td>
-    </tr>
-    <tr>
-      <td><strong>Корреспондент:</strong></td>
-      <td>{{ data.correspondent }}</td>
-    </tr>
-    <tr>
-      <td><strong>Тема:</strong></td>
-      <td>{{ data.subject }}</td>
-    </tr>
-  </table>
-</div>
-
-<div mat-dialog-actions>
-  <!-- Кнопка для печати документа -->
-  <button mat-button (click)="printDocument()">Печать</button>
-  <!-- Кнопка для закрытия модального окна -->
-  <button mat-button (click)="close()">Закрыть</button>
+  <h2 mat-dialog-title>Печать документа</h2>
+  
+  <div mat-dialog-content class="table-design">
+    <!-- Таблица с реквизитами документа -->
+    <table class="document-table">
+      <tr>
+        <td><strong>Рег. №:</strong></td>
+        <td>{{ data.regNumber }}</td>
+      </tr>
+      <tr>
+        <td><strong>Дата рег.:</strong></td>
+        <td>{{ data.regDate | date: 'dd.MM.yyyy' }}</td>
+      </tr>
+      <tr>
+        <td><strong>№ исх. док-та:</strong></td>
+        <td>{{ data.outDocNumber }}</td>
+      </tr>
+      <tr>
+        <td><strong>Дата исх. док-та:</strong></td>
+        <td>{{ data.outDocDate | date: 'dd.MM.yyyy' }}</td>
+      </tr>
+      <tr>
+        <td><strong>Корреспондент:</strong></td>
+        <td>{{ data.correspondent }}</td>
+      </tr>
+      <tr>
+        <td><strong>Тема:</strong></td>
+        <td>{{ data.subject }}</td>
+      </tr>
+    </table>
+  </div>
+  
+  <div mat-dialog-actions class="buttons">
+    <!-- Кнопка для печати документа -->
+    <button mat-button (click)="printDocument()">Печать</button>
+    <!-- Кнопка для закрытия модального окна -->
+    <button mat-button (click)="close()">Закрыть</button>
+  </div>
 </div>

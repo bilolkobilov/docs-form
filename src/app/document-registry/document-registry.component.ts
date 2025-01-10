@@ -124,7 +124,7 @@ export class DocumentRegistryComponent implements AfterViewInit {
   // Выбор строки по клику или программно
   selectRow(row: any) {
     this.selectedRowIndex = this.dataSource.data.indexOf(row);
-    this.scrollToSelectedRow();  // Ensure the selected row is visible
+    this.scrollToSelectedRow();  
   }
 
   // Навигация по строкам с клавиатуры
@@ -151,6 +151,7 @@ export class DocumentRegistryComponent implements AfterViewInit {
     const selectedRow = rows[this.selectedRowIndex] as HTMLElement;
   }
 
+  // Открывает диалоговое окно для печати документа с переданными данными
   openPrintDialog(element: any): void {
     const dialogRef = this.dialog.open(PrintDocumentComponent, {
       width: '600px',

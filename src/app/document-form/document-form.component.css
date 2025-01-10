@@ -1,12 +1,170 @@
+.main {
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+
+h2.form-title {
+  text-align: center;
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.document-form {
+  padding: 20px;
+  margin: 0 auto;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.form-row-m {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.form-row-b {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: baseline;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.full-width mat-form-field textarea {
+  height: 10px !important;
+  resize: none;
+  padding: 0 12px;
+}
+
+.mat-form-field {
+  margin-bottom: 15px;
+  width: 100%;
+  flex: 1;
+}
+
 .required {
-  color: red;
-  font-weight: bold;
-  margin-left: 2px;
+  color: #e53935;
+}
+
+.submit-button,
+.cancel-button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submit-button {
+  background-color: #42a5f5;
+  color: white;
+}
+
+.submit-button:hover {
+  background-color: #1e88e5;
+}
+
+.cancel-button {
+  background-color: #e0e0e0;
+  color: #333;
+  margin-top: 10px;
+}
+
+.cancel-button:hover {
+  background-color: #bdbdbd;
 }
 
 .error-message {
-  color: red;
-  margin-top: 10px;
-  font-size: 14px;
+  color: #e53935;
   font-weight: bold;
+  position: absolute;
+  width: 95%;
+  text-align: center;
+  margin-top: -8px;
+}
+
+mat-form-field,
+mat-checkbox,
+mat-select,
+mat-label,
+mat-error {
+  width: 100%;
+}
+
+mat-checkbox {
+  margin-top: 15px;
+}
+
+::ng-deep .cdk-overlay-pane.mat-mdc-dialog-panel {
+  width: 1000px !important;
+  position: relative;
+  background-color: white !important;
+  border-radius: 8px !important;
+  padding: 20px !important;
+}
+
+.file {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.file-input {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.file-label {
+  display: inline-block;
+  padding: 6px 12px;
+  background-color: #42a5f5;
+  color: white;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.file-label:hover {
+  background-color: #1e88e5;
+}
+
+.file-info {
+  margin-top: 5px;
+}
+
+.file-chosen {
+  font-size: 14px;
+  color: #333;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.file mat-label {
+  font-weight: bold;
+  color: #333;
+}
+
+.file mat-error {
+  margin-top: 30px;
+  font-size: 12px;
+  color: #e53935;
+  align-self: stretch;
+  position: absolute;
+  width: auto;
 }

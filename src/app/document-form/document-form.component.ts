@@ -4,7 +4,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,6 +14,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { EventEmitter, Output } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+
 
 @Component({
   selector: 'app-document-form',
@@ -32,7 +33,7 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
     MatSelectModule,
     MatIconModule,
     MatCheckboxModule,
-    MatOptionModule
+    MatOptionModule,
   ],
 })
 
@@ -43,12 +44,14 @@ export class DocumentFormComponent {
   isSaved = false;
   submitted = false;
   selectedFile: File | null = null;
+  selectedFileName: string = 'Файл не выбран';
 
   @Output() documentSaved = new EventEmitter<any>();
 
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<DocumentFormComponent>,
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.form = this.fb.group({
@@ -96,27 +99,37 @@ export class DocumentFormComponent {
   }
 
   // Обработчик изменения файла
-  onFileChange(event: Event) {
+  onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files?.length) {
       const file = input.files[0];
-      const allowedFormats = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-      const maxSize = 1 * 1024 * 1024;
+      const allowedFormats = [
+        'application/pdf',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      ];
+      const maxSize = 1 * 1024 * 1024; // 1 MB
 
       if (!allowedFormats.includes(file.type)) {
         this.fileError = 'Недопустимый формат. Только PDF, DOC, DOCX.';
+        this.selectedFileName = 'Файл не выбран';
         this.form.get('file')?.setValue(null);
         return;
       }
 
       if (file.size > maxSize) {
         this.fileError = 'Размер файла превышает 1Мб.';
+        this.selectedFileName = 'Файл не выбран';
         this.form.get('file')?.setValue(null);
         return;
       }
 
       this.fileError = null;
+      this.selectedFileName = file.name;
       this.form.get('file')?.setValue(file);
+    } else {
+      this.selectedFileName = 'Файл не выбран';
+      this.form.get('file')?.setValue(null);
     }
   }
 
