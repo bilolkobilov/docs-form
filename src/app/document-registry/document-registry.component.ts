@@ -77,7 +77,7 @@ export class DocumentRegistryComponent implements AfterViewInit {
   editDocument(element: any) {
     const dialogRef = this.dialog.open(DocumentFormComponent, {
       width: '600px',
-      data: { ...element },
+      data: { ...element, file: element.file },
     });
 
     dialogRef.componentInstance.documentSaved.subscribe((updatedDocument) => {
@@ -91,7 +91,6 @@ export class DocumentRegistryComponent implements AfterViewInit {
 
   // Удаление документа
   deleteDocument(element: any) {
-    console.log('Deleting document:', element);
     this.dataSource.data = this.dataSource.data.filter(doc => doc !== element);
   }
 
@@ -108,7 +107,6 @@ export class DocumentRegistryComponent implements AfterViewInit {
 
   // Просмотр файла
   viewFile(element: any) {
-    console.log(element);
     if (element.fileUrl) {
       window.open(element.fileUrl, '_blank');
     } else {
@@ -124,6 +122,7 @@ export class DocumentRegistryComponent implements AfterViewInit {
   // Выбор строки по клику или программно
   selectRow(row: any) {
     this.selectedRowIndex = this.dataSource.data.indexOf(row);
+    this.focusSelectedRow();
     this.scrollToSelectedRow();  
   }
 
@@ -156,10 +155,6 @@ export class DocumentRegistryComponent implements AfterViewInit {
     const dialogRef = this.dialog.open(PrintDocumentComponent, {
       width: '600px',
       data: element
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('Диалог закрыт', result);
     });
   }
 }

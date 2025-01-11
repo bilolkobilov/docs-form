@@ -85,6 +85,7 @@ export class DocumentFormComponent {
     if (this.data) {
       this.isEditMode = true;
       this.form.patchValue(this.data);
+      this.selectedFileName = this.data.file.name;
     }
   }
 
@@ -152,7 +153,6 @@ export class DocumentFormComponent {
       this.documentSaved.emit(formData);
       this.dialogRef.close();
       this.isSaved = true;
-      console.log('Form submitted:', formData);
     }
   }
 
@@ -170,16 +170,35 @@ export class DocumentFormComponent {
 
   // Валидатор для регистрационного номера
   regNumberValidator(control: AbstractControl): ValidationErrors | null {
-    const value = control.value;
-    return /[0-9]/.test(value) && /[A-Za-z]/.test(value)
-      ? null
-      : { regNumberInvalid: true };
+    const value = control.value || '';
+    const hasDigit = /[0-9]/.test(value);
+    const hasLetter = /[A-Za-z]/.test(value);
+
+    if (!value) {
+      return null;
+    }
+
+    if (!hasDigit) {
+      return { regNumberNoDigit: true };
+    }
+
+    if (!hasLetter) {
+      return { regNumberNoLetter: true };
+    }
+
+    return null;
   }
 
   // Проверка наличия ошибки в поле
   hasError(controlName: string, errorName: string): boolean {
     const control = this.form.get(controlName);
-    return control ? control.hasError(errorName) && control.touched : false;
+    if (!control) return false;
+
+    if (errorName === 'required') {
+      return control.hasError('required');
+    }
+
+    return control.hasError(errorName) && control.touched;
   }
 
   // Валидатор для поля executionDate (не может быть раньше regDate)

@@ -168,3 +168,8 @@ input[type="file"] {
   position: absolute;
   width: auto;
 }
+
+::ng-deep .cdk-overlay-pane.mat-datepicker-popup {
+  top: 181px !important;
+  left: 699.25px !important;
+}
